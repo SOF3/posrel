@@ -1,0 +1,12 @@
+[package]
+name = "posrel"
+version = "0.1.0"
+authors = ["SOFe <sofe2038@gmail.com>"]
+edition = "2018"
+license = "Apache-2.0"
+repository = "https://github.com/SOF3/posrel.git"
+homepage = "https://github.com/SOF3/posrel"
+description = "Position/Relative type vectors with compile-time sanity check"
+
+[dependencies]
+derive_more = "0.15.0"
