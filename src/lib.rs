@@ -13,11 +13,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-mod prelude;
-
-mod position;
-mod relative;
+mod posrel;
 mod scalar;
 mod vector;
 
-pub use prelude::*;
+pub use crate::posrel::*;
+pub use crate::scalar::*;
+pub use crate::vector::*;

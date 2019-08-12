@@ -14,9 +14,11 @@
 // limitations under the License.
 
 use std::fmt::{self, Display, Formatter};
-use std::ops::{Add, Div, Mul, Neg, Sub};
+use std::ops::{Div, Mul};
 
-use crate::prelude::*;
+use operator_sugar::operator;
+
+use crate::scalar::{IntScalar, Scalar};
 
 #[derive(Copy, Clone, Debug, PartialEq)]
 pub struct Vector<T: Scalar>(T, T, T);
@@ -43,56 +45,20 @@ impl<T: Scalar> Vector<T> {
     }
 }
 
+impl<T: IntScalar> Eq for Vector<T> {}
+
 impl<T: Scalar> Display for Vector<T> {
     fn fmt(&self, f: &mut Formatter) -> fmt::Result {
         write!(f, "({}, {}, {})", self.0, self.1, self.2)
     }
 }
 
-impl<T: Scalar> Add for Vector<T> {
-    type Output = Self;
+operator!({T: Scalar} Vector<T>, Vector<T>: a + b -> Vector<T> { a.bi_map(b, |x, y| x + y) });
 
-    fn add(self, other: Self) -> Self {
-        self.bi_map(other, |a, b| a + b)
-    }
-}
+operator!({T: Scalar} Vector<T>, Vector<T>: a - b -> Vector<T> { a.bi_map(b, |x, y| x - y) });
 
-impl<T: Scalar> Sub for Vector<T> {
-    type Output = Self;
+operator!({T: Scalar + Mul<U, Output = T>, U: Scalar} Vector<T>, U: a * b -> Vector<T> { a.map(|x| x * b) });
 
-    fn sub(self, other: Self) -> Self {
-        self.bi_map(other, |a, b| a - b)
-    }
-}
+operator!({T: Scalar + Div<U, Output = T>, U: Scalar} Vector<T>, U: a / b -> Vector<T> { a.map(|x| x / b) });
 
-impl<T: Scalar, U: Scalar> Mul<U> for Vector<T>
-where
-    T: Mul<U, Output = T>,
-{
-    type Output = Self;
-
-    fn mul(self, other: U) -> Self {
-        self.map(|a| a * other)
-    }
-}
-
-impl<T: Scalar, U: Scalar> Div<U> for Vector<T>
-where
-    T: Div<U, Output = T>,
-{
-    type Output = Self;
-
-    fn div(self, other: U) -> Self {
-        self.map(|a| a / other)
-    }
-}
-
-impl<T: Scalar> Neg for Vector<T> {
-    type Output = Self;
-
-    fn neg(self) -> Self {
-        self.map(|a| -a)
-    }
-}
-
-impl<T: IntScalar> Eq for Vector<T> {}
+operator!({T: Scalar} Vector<T>: -a -> Vector<T> { a.map(|x| -x) });
