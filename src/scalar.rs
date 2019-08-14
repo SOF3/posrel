@@ -30,26 +30,28 @@ pub trait Scalar:
     + Neg<Output = Self>
 {
     const ZERO: Self;
+
+    fn as_f64(self) -> f64;
 }
 
-impl Scalar for i8 {
-    const ZERO: Self = 0;
+macro_rules! impl_scalar {
+    ($ty:ty, $zero:literal) => {
+        impl Scalar for $ty {
+            const ZERO: Self = $zero;
+
+            fn as_f64(self) -> f64 {
+                self as f64
+            }
+        }
+    };
 }
-impl Scalar for i16 {
-    const ZERO: Self = 0;
-}
-impl Scalar for i32 {
-    const ZERO: Self = 0;
-}
-impl Scalar for i64 {
-    const ZERO: Self = 0;
-}
-impl Scalar for f32 {
-    const ZERO: Self = 0.0;
-}
-impl Scalar for f64 {
-    const ZERO: Self = 0.0;
-}
+
+impl_scalar!(i8, 0);
+impl_scalar!(i16, 0);
+impl_scalar!(i32, 0);
+impl_scalar!(i64, 0);
+impl_scalar!(f32, 0.0);
+impl_scalar!(f64, 0.0);
 
 pub trait IntScalar: Scalar + Eq + Ord {}
 

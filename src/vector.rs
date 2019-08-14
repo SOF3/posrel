@@ -41,7 +41,7 @@ impl<T: Scalar> Vector<T> {
     }
 
     pub fn modulus(self) -> f64 {
-        (self.modulus_squared() as f64).sqrt()
+        (self.modulus_squared().as_f64()).sqrt()
     }
 
     pub(super) fn bi_map<F: Fn(T, T) -> T>(self, other: Self, f: F) -> Self {

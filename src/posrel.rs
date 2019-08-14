@@ -34,9 +34,13 @@ impl<T: IntScalar> Eq for PositionVector<T> {}
 pub struct RelativeVector<T: Scalar>(pub(crate) Vector<T>);
 
 impl<T: Scalar> RelativeVector<T> {
-    pub fn length_squared(self) -> T { self.0.modulus_squared() }
+    pub fn length_squared(self) -> T {
+        self.0.modulus_squared()
+    }
 
-    pub fn length(self) -> f64 { self.0.modulus() }
+    pub fn length(self) -> f64 {
+        self.0.modulus()
+    }
 }
 
 impl<T: Scalar> From<RelativeVector<T>> for Vector<T> {
