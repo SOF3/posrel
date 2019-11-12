@@ -9,5 +9,5 @@ homepage = "https://github.com/SOF3/posrel"
 description = "Position/Relative type vectors with compile-time sanity check"
 
 [dependencies]
-derive_more = "0.15.0"
+derive_more = "0.99.0"
 operator-sugar = "0.1.2"
